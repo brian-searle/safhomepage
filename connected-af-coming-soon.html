@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Connected AF</title>
+<meta name="description" content="Connected AF — two-way SMS, RCS and WhatsApp messaging for charities. Coming soon.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F7F1E6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1826" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Connected AF">
+<meta property="og:description" content="Two-way messaging for charities. Coming soon.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+  /* Layout: single full-height holding screen — ambient node-graph canvas behind
+     a centred column (mark + wordmark, status pill, headline, channel chips, footer). */
+
+  *, *::before, *::after { box-sizing: border-box; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+
+  :root {
+    --bg:        #F7F1E6;   /* warm cream */
+    --bg-tint:   #F2EADB;   /* deeper cream for the vignette */
+    --surface:   #FFFFFF;
+    --ink:       #142338;   /* deep navy */
+    --ink-soft:  #4A5568;   /* muted navy-grey, biased warm */
+    --line:      #E3D9C6;   /* hairline on cream */
+    --accent:    #F0851C;   /* amber */
+    --accent-2:  #FF6A34;   /* warm orange, for pulses + gradient */
+    --node:      #C9BBA1;   /* resting node/edge colour on cream */
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:       #0D1826;
+      --bg-tint:  #0A121D;
+      --surface:  #14233A;
+      --ink:      #F4ECDC;
+      --ink-soft: #A9B4C4;
+      --line:     #24344B;
+      --accent:   #F79A2E;
+      --accent-2: #FF7A45;
+      --node:     #34506F;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:       #0D1826;
+    --bg-tint:  #0A121D;
+    --surface:  #14233A;
+    --ink:      #F4ECDC;
+    --ink-soft: #A9B4C4;
+    --line:     #24344B;
+    --accent:   #F79A2E;
+    --accent-2: #FF7A45;
+    --node:     #34506F;
+    color-scheme: dark;
+  }
+
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .stage {
+    position: relative;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ambient canvas + soft radial vignette so the centre reads clearly */
+  #net {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+    z-index: 0;
+  }
+  .veil {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      radial-gradient(120% 90% at 50% 42%, transparent 0%, transparent 34%, var(--bg-tint) 100%),
+      radial-gradient(60% 45% at 50% 44%, color-mix(in srgb, var(--bg) 72%, transparent) 0%, transparent 70%);
+  }
+
+  .wrap {
+    position: relative; z-index: 2;
+    flex: 1 0 auto;
+    display: flex; flex-direction: column;
+    width: 100%;
+    max-width: 940px;
+    margin: 0 auto;
+    padding-inline: 24px;
+    padding-block: 28px 22px;
+  }
+
+  /* top bar */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .mark { width: 34px; height: 34px; flex: none; display: block; }
+  .wordmark {
+    font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .wordmark b { color: var(--accent); font-weight: 800; }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--accent) 16%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+    padding: 7px 13px; border-radius: 999px;
+    white-space: nowrap;
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 70%, transparent);
+    animation: ping 2.6s ease-out infinite;
+  }
+  @keyframes ping {
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 65%, transparent); }
+    70%  { box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+
+  /* hero */
+  main {
+    flex: 1 0 auto;
+    display: flex; flex-direction: column; justify-content: center;
+    padding-block: 6vh;
+    max-width: 660px;
+  }
+  .eyebrow {
+    font-size: 12.5px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 18px;
+  }
+  h1 {
+    font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 6.4vw, 3.9rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    margin: 0;
+    color: var(--ink);
+  }
+  h1 .hl { color: var(--accent); }
+  .lede {
+    font-size: clamp(1.02rem, 2.4vw, 1.22rem);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 40ch;
+    margin: 22px 0 0;
+  }
+
+  /* channel chips */
+  .channels {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 38px;
+  }
+  .chip {
+    font-size: 12.5px; font-weight: 600;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 13px;
+    background: color-mix(in srgb, var(--surface) 55%, transparent);
+  }
+  .chip b { color: var(--ink); font-weight: 700; }
+
+  footer {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: 13px; color: var(--ink-soft);
+  }
+  footer a { color: var(--ink); text-decoration: none; font-weight: 600; }
+  footer a:hover { color: var(--accent); }
+  .contact { user-select: all; }
+
+  @media (max-width: 560px) {
+    .wrap { padding-block: 22px 18px; }
+    main { padding-block: 3vh; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dot { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 40 40" role="img" aria-label="Connected AF">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#F0851C"/>
+              <stop offset="1" stop-color="#FF6A34"/>
+            </linearGradient>
+          </defs>
+          <g stroke="url(#g)" stroke-width="2.1" stroke-linecap="round">
+            <line x1="9" y1="11" x2="9" y2="29"/>
+            <line x1="9" y1="11" x2="26" y2="7"/>
+            <line x1="9" y1="29" x2="31" y2="24"/>
+            <line x1="26" y1="7" x2="31" y2="24"/>
+            <line x1="26" y1="7" x2="9" y2="29"/>
+          </g>
+          <g fill="url(#g)">
+            <circle cx="9"  cy="11" r="3.4"/>
+            <circle cx="9"  cy="29" r="3.4"/>
+            <circle cx="31" cy="24" r="3.4"/>
+          </g>
+          <circle cx="26" cy="7" r="4.4" fill="#142338"/>
+          <circle cx="26" cy="7" r="4.4" fill="url(#g)" opacity="0.15"/>
+          <circle cx="26" cy="7" r="2" fill="#FF6A34"/>
+        </svg>
+        <span class="wordmark">Connected&nbsp;<b>AF</b></span>
+      </div>
+      <span class="pill"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+    </header>
+
+    <main>
+      <!--<p class="eyebrow">Two-way messaging for charities</p>-->
+      <h1>Coming soon <span class="hl">.</span></h1>
+      <!--<p class="lede">Connected AF brings SMS, RCS and WhatsApp into one shared inbox, so your team can hold real conversations with supporters. We're putting the finishing touches to it now.</p>
+
+      <div class="channels" aria-label="Supported channels">
+        <span class="chip"><b>SMS</b></span>
+        <span class="chip"><b>RCS</b></span>
+        <span class="chip"><b>WhatsApp</b></span>
+        <span class="chip">One shared inbox</span>
+      </div>-->
+    </main>
+
+    <footer>
+      <span>&copy; <span id="yr">2026</span> Connected AF</span>
+      <span>Questions? <a class="contact" href="mailto:hello@connectedaf.io">hello@connectedaf.io</a></span>
+    </footer>
+  </div>
+</div>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ---- ambient node-graph: connections with amber message pulses ---- */
+  (function () {
+    var canvas = document.getElementById('net');
+    var ctx = canvas.getContext('2d');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var css = getComputedStyle(document.documentElement);
+    var W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var nodes = [], pulses = [], raf = null;
+
+    function col(name) { return css.getPropertyValue(name).trim(); }
+    var C = { node: col('--node'), accent: col('--accent'), accent2: col('--accent-2') };
+
+    function refreshColors() {
+      css = getComputedStyle(document.documentElement);
+      C.node = css.getPropertyValue('--node').trim();
+      C.accent = css.getPropertyValue('--accent').trim();
+      C.accent2 = css.getPropertyValue('--accent-2').trim();
+    }
+
+    function resize() {
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = Math.floor(W * dpr);
+      canvas.height = Math.floor(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function build() {
+      var area = W * H;
+      var count = Math.max(14, Math.min(40, Math.round(area / 26000)));
+      nodes = [];
+      for (var i = 0; i < count; i++) {
+        nodes.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.16,
+          vy: (Math.random() - 0.5) * 0.16,
+          r: 1.6 + Math.random() * 1.8,
+          hot: Math.random() < 0.14
+        });
+      }
+    }
+
+    var LINK = 160; // px connection radius
+
+    function spawnPulse() {
+      if (nodes.length < 2) return;
+      var a = (Math.random() * nodes.length) | 0;
+      // find a near neighbour
+      var best = -1, bd = LINK * LINK;
+      for (var j = 0; j < nodes.length; j++) {
+        if (j === a) continue;
+        var dx = nodes[a].x - nodes[j].x, dy = nodes[a].y - nodes[j].y;
+        var d = dx * dx + dy * dy;
+        if (d < bd && Math.random() < 0.5) { best = j; bd = d; }
+      }
+      if (best === -1) return;
+      pulses.push({ a: a, b: best, t: 0, sp: 0.006 + Math.random() * 0.01 });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // edges
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        if (!reduce) {
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < -20) n.x = W + 20; else if (n.x > W + 20) n.x = -20;
+          if (n.y < -20) n.y = H + 20; else if (n.y > H + 20) n.y = -20;
+        }
+        for (var j = i + 1; j < nodes.length; j++) {
+          var m = nodes[j];
+          var dx = n.x - m.x, dy = n.y - m.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < LINK) {
+            var o = (1 - dist / LINK) * 0.5;
+            ctx.strokeStyle = withAlpha(C.node, o);
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(m.x, m.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // nodes
+      for (var k = 0; k < nodes.length; k++) {
+        var p = nodes[k];
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.hot ? withAlpha(C.accent, 0.9) : withAlpha(C.node, 0.85);
+        ctx.fill();
+        if (p.hot) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r + 3.5, 0, Math.PI * 2);
+          ctx.strokeStyle = withAlpha(C.accent, 0.25);
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      // pulses (messages travelling along an edge)
+      for (var q = pulses.length - 1; q >= 0; q--) {
+        var pu = pulses[q];
+        var A = nodes[pu.a], B = nodes[pu.b];
+        if (!A || !B) { pulses.splice(q, 1); continue; }
+        pu.t += pu.sp;
+        if (pu.t >= 1) { pulses.splice(q, 1); continue; }
+        var x = A.x + (B.x - A.x) * pu.t;
+        var y = A.y + (B.y - A.y) * pu.t;
+        var g = ctx.createRadialGradient(x, y, 0, x, y, 7);
+        g.addColorStop(0, withAlpha(C.accent2, 0.95));
+        g.addColorStop(1, withAlpha(C.accent2, 0));
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(x, y, 7, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if (!reduce) {
+        if (pulses.length < 4 && Math.random() < 0.04) spawnPulse();
+        raf = requestAnimationFrame(draw);
+      }
+    }
+
+    // accepts #rrggbb or rgb(...) tokens and applies alpha
+    function withAlpha(c, a) {
+      c = c || '#000';
+      if (c[0] === '#') {
+        var h = c.slice(1);
+        if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+        var r = parseInt(h.slice(0,2),16), g = parseInt(h.slice(2,4),16), b = parseInt(h.slice(4,6),16);
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+      }
+      var m = c.match(/\d+/g);
+      if (m && m.length >= 3) return 'rgba(' + m[0] + ',' + m[1] + ',' + m[2] + ',' + a + ')';
+      return c;
+    }
+
+    function start() {
+      resize(); build();
+      if (raf) cancelAnimationFrame(raf);
+      draw(); // draws a complete first frame either way
+    }
+
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { refreshColors(); start(); }, 150);
+    });
+    // react to theme flips (system or explicit)
+    try {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+        setTimeout(function () { refreshColors(); draw(); }, 60);
+      });
+    } catch (e) {}
+
+    start();
+  })();
+</script>
+</body>
+</html>
