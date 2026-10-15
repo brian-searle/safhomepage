@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy Policy | Connected AF</title>
+<meta name="description" content="How Connected AF (AFComm Ltd) collects, uses, stores and protects personal information.">
+<link rel="canonical" href="https://connectedaf.app/privacy-policy">
+<meta name="theme-color" content="#F7F1E6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1826" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --bg:       #F7F1E6;
+    --surface:  #FFFFFF;
+    --ink:      #142338;
+    --ink-soft: #4A5568;
+    --line:     #E3D9C6;
+    --accent:   #C9670E;   /* amber, darkened for text contrast on cream */
+    --accent-2: #F0851C;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0D1826; --surface: #14233A; --ink: #F4ECDC; --ink-soft: #A9B4C4;
+      --line: #24344B; --accent: #F79A2E; --accent-2: #FF7A45; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D1826; --surface: #14233A; --ink: #F4ECDC; --ink-soft: #A9B4C4;
+    --line: #24344B; --accent: #F79A2E; --accent-2: #FF7A45; color-scheme: dark;
+  }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16.5px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  a { color: var(--accent); text-underline-offset: 2px; }
+  a:hover { color: var(--accent-2); }
+  a:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; border-radius: 3px; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding-inline: 24px; }
+
+  /* header */
+  .site-header { border-bottom: 1px solid var(--line); }
+  .site-header .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding-block: 20px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+  .brand:hover { color: var(--ink); }
+  .mark { width: 32px; height: 32px; flex: none; }
+  .wordmark { font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
+  .wordmark b { color: var(--accent-2); }
+  .back { font-size: 14px; font-weight: 600; text-decoration: none; }
+
+  /* title block */
+  .intro { padding-block: 48px 28px; }
+  .eyebrow {
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 12px;
+  }
+  h1 {
+    font-weight: 800; font-size: clamp(2rem, 5vw, 2.9rem); line-height: 1.08;
+    letter-spacing: -0.025em; margin: 0; text-wrap: balance;
+  }
+  .updated { margin: 14px 0 0; font-size: 14px; color: var(--ink-soft); }
+
+  /* layout */
+  .layout {
+    display: grid; grid-template-columns: 230px minmax(0, 1fr);
+    gap: 56px; padding-bottom: 72px;
+  }
+  .toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; }
+  .toc p {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-soft); margin: 0 0 10px;
+  }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .toc a {
+    display: block; padding: 5px 10px; border-radius: 8px;
+    font-size: 14px; line-height: 1.35; color: var(--ink-soft); text-decoration: none;
+  }
+  .toc a:hover { color: var(--ink); background: color-mix(in srgb, var(--accent-2) 10%, transparent); }
+
+  article { min-width: 0; max-width: 68ch; }
+  .lede p { font-size: 18px; color: var(--ink); margin: 0 0 16px; }
+  .lede { padding-bottom: 12px; }
+
+  section { padding-top: 34px; scroll-margin-top: 20px; }
+  section + section { border-top: 1px solid var(--line); margin-top: 6px; }
+  h2 {
+    font-size: 1.35rem; font-weight: 800; letter-spacing: -0.015em; line-height: 1.25;
+    margin: 0 0 14px; display: flex; gap: 12px; align-items: baseline;
+  }
+  h2 .n { color: var(--accent); font-variant-numeric: tabular-nums; min-width: 1.6em; }
+  h3 { font-size: 1.02rem; font-weight: 700; margin: 22px 0 8px; }
+  article p { margin: 0 0 14px; color: var(--ink); }
+  article ul { margin: 0 0 16px; padding-left: 1.25em; }
+  article li { margin: 0 0 4px; }
+  article li::marker { color: var(--accent-2); }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 20px; margin: 4px 0 16px;
+  }
+  .card p { margin: 0; }
+  .card p + p { margin-top: 2px; }
+
+  .callout {
+    border-left: 3px solid var(--accent-2); padding: 4px 0 4px 16px; margin: 6px 0 16px;
+  }
+
+  .site-footer { border-top: 1px solid var(--line); }
+  .site-footer .wrap {
+    display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;
+    padding-block: 24px; font-size: 13.5px; color: var(--ink-soft);
+  }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .toc { position: static; border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--surface); }
+    .toc ol { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  }
+  @media (max-width: 520px) {
+    body { font-size: 16px; }
+    .wrap { padding-inline: 18px; }
+    .intro { padding-block: 32px 18px; }
+    .back span { display: none; }
+  }
+  @media print {
+    .toc, .site-header .back { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    body { background: #fff; color: #000; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Connected AF home">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#F0851C"/><stop offset="1" stop-color="#FF6A34"/>
+          </linearGradient>
+        </defs>
+        <g stroke="url(#g)" stroke-width="2.1" stroke-linecap="round">
+          <line x1="9" y1="11" x2="9" y2="29"/><line x1="9" y1="11" x2="26" y2="7"/>
+          <line x1="9" y1="29" x2="31" y2="24"/><line x1="26" y1="7" x2="31" y2="24"/>
+          <line x1="26" y1="7" x2="9" y2="29"/>
+        </g>
+        <g fill="url(#g)"><circle cx="9" cy="11" r="3.4"/><circle cx="9" cy="29" r="3.4"/><circle cx="31" cy="24" r="3.4"/></g>
+        <circle cx="26" cy="7" r="4.4" fill="#142338"/><circle cx="26" cy="7" r="2" fill="#FF6A34"/>
+      </svg>
+      <span class="wordmark">Connected&nbsp;<b>AF</b></span>
+    </a>
+    <a class="back" href="/">&larr; <span>Back to </span>home</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap intro">
+    <p class="eyebrow">Legal</p>
+    <h1>Connected AF Privacy Policy</h1>
+    <p class="updated">Last updated: <time datetime="2026-08-14">14 August 2026</time></p>
+  </div>
+
+  <div class="wrap layout">
+    <nav class="toc" aria-label="Contents">
+      <p>Contents</p>
+      <ol>
+        <li><a href="#who-we-are">1. Who We Are</a></li>
+        <li><a href="#what-is-connected-af">2. What Is Connected AF?</a></li>
+        <li><a href="#information-we-collect">3. Information We Collect</a></li>
+        <li><a href="#how-we-use">4. How We Use Personal Information</a></li>
+        <li><a href="#for-our-customers">5. Information We Process for Our Customers</a></li>
+        <li><a href="#communications">6. SMS, RCS and WhatsApp Communications</a></li>
+        <li><a href="#ai">7. AI-Assisted Features</a></li>
+        <li><a href="#providers">8. Our Technology Providers</a></li>
+        <li><a href="#transfers">9. Data Location and International Transfers</a></li>
+        <li><a href="#retention">10. How Long We Keep Information</a></li>
+        <li><a href="#security">11. Security</a></li>
+        <li><a href="#rights">12. Your Rights</a></li>
+        <li><a href="#marketing">13. Marketing From Connected AF</a></li>
+        <li><a href="#cookies">14. Cookies</a></li>
+        <li><a href="#integrations">15. Integrations and Third-Party Services</a></li>
+        <li><a href="#sensitive">16. Children's and Sensitive Information</a></li>
+        <li><a href="#complaints">17. Complaints</a></li>
+        <li><a href="#changes">18. Changes to This Privacy Policy</a></li>
+      </ol>
+    </nav>
+
+    <article>
+      <div class="lede">
+        <p>At Connected AF, we take the privacy and security of personal information seriously.</p>
+        <p>This Privacy Policy explains how we collect, use, store and protect personal information when you visit our website, use Connected AF, communicate with us or otherwise interact with our business.</p>
+        <p>It also explains the distinction between information we process for our own purposes and information we process on behalf of organisations using Connected AF.</p>
+      </div>
+
+      <section id="who-we-are">
+        <h2><span class="n">1.</span>Who We Are</h2>
+        <p>Connected AF is operated by:</p>
+        <div class="card">
+          <p><strong>AFComm Ltd</strong></p>
+          <p>Trading as Connected AF</p>
+          <p>Company number: 17294085</p>
+          <p>Registered office: 47 Hartley Avenue, Whitley Bay, NE26 3NS</p>
+        </div>
+        <p>For questions about this Privacy Policy or how we use personal information, please contact:</p>
+        <p>Email: <a href="mailto:helen@connectedaf.io">helen@connectedaf.io</a></p>
+        <p>Where we determine why and how personal information is processed, we act as the data controller.</p>
+        <p>Where we process personal information on behalf of an organisation using Connected AF, we generally act as a data processor, while that organisation remains the data controller.</p>
+      </section>
+
+      <section id="what-is-connected-af">
+        <h2><span class="n">2.</span>What Is Connected AF?</h2>
+        <p>Connected AF is a two-way messaging platform that enables organisations to communicate with their supporters and other contacts through SMS, RCS and WhatsApp.</p>
+        <p>Depending on the services being used, Connected AF may enable organisations to:</p>
+        <ul>
+          <li>send and receive messages;</li>
+          <li>manage individual conversations;</li>
+          <li>send messages at scale;</li>
+          <li>create automated messaging journeys;</li>
+          <li>manage communications across campaigns;</li>
+          <li>connect information from fundraising and other third-party systems; and</li>
+          <li>use AI-assisted tools to help users respond to messages.</li>
+        </ul>
+      </section>
+
+      <section id="information-we-collect">
+        <h2><span class="n">3.</span>Information We Collect</h2>
+        <p>The information we collect depends on how you interact with Connected AF.</p>
+
+        <h3>Customer and Account Information</h3>
+        <p>If you create an account, purchase Connected AF, request a demonstration or otherwise enquire about our services, we may collect:</p>
+        <ul>
+          <li>your name;</li>
+          <li>job title;</li>
+          <li>organisation;</li>
+          <li>business email address;</li>
+          <li>telephone number;</li>
+          <li>account and login information;</li>
+          <li>billing and subscription information;</li>
+          <li>communications with us;</li>
+          <li>product preferences; and</li>
+          <li>information relating to your use of Connected AF.</li>
+        </ul>
+
+        <h3>Website Information</h3>
+        <p>When you visit our website, we may collect information including:</p>
+        <ul>
+          <li>IP address;</li>
+          <li>browser and device information;</li>
+          <li>pages visited;</li>
+          <li>referral source;</li>
+          <li>website interactions; and</li>
+          <li>cookie information where applicable.</li>
+        </ul>
+
+        <h3>Supporter and Messaging Information</h3>
+        <p>Organisations using Connected AF may upload, integrate or otherwise provide personal information about their supporters or other contacts.</p>
+        <p>Depending on how an organisation uses Connected AF, this may include:</p>
+        <ul>
+          <li>name;</li>
+          <li>mobile telephone number;</li>
+          <li>campaign or event information;</li>
+          <li>fundraising information;</li>
+          <li>registration information;</li>
+          <li>communication preferences and consent records;</li>
+          <li>SMS, RCS and WhatsApp message content;</li>
+          <li>conversation history;</li>
+          <li>delivery, read and engagement information where available;</li>
+          <li>tags or categories applied by the organisation; and</li>
+          <li>other information the organisation chooses to process through Connected AF.</li>
+        </ul>
+        <p>In these circumstances, the organisation using Connected AF will generally be the data controller and Connected AF will process the information on its behalf.</p>
+      </section>
+
+      <section id="how-we-use">
+        <h2><span class="n">4.</span>How We Use Personal Information</h2>
+        <p>Where Connected AF acts as the data controller, we may use personal information to:</p>
+        <ul>
+          <li>create and manage customer accounts;</li>
+          <li>provide Connected AF and its services;</li>
+          <li>process subscriptions and payments;</li>
+          <li>respond to enquiries and provide customer support;</li>
+          <li>communicate important service information;</li>
+          <li>manage our relationships with customers;</li>
+          <li>improve our products and services;</li>
+          <li>understand how Connected AF is used;</li>
+          <li>maintain the security and integrity of our systems;</li>
+          <li>prevent fraud and misuse;</li>
+          <li>meet legal and regulatory obligations; and</li>
+          <li>send marketing communications where permitted.</li>
+        </ul>
+        <p>We will only process personal information where we have an appropriate lawful basis for doing so.</p>
+        <p>Depending on the circumstances, this may include processing necessary to perform a contract, comply with a legal obligation, pursue our legitimate interests or where consent has been provided.</p>
+      </section>
+
+      <section id="for-our-customers">
+        <h2><span class="n">5.</span>Information We Process for Our Customers</h2>
+        <p>Organisations using Connected AF may use the platform to communicate with supporters and other contacts.</p>
+        <p>Where Connected AF processes this information on the organisation's instructions, the organisation is responsible for deciding why the information is being used, establishing the appropriate lawful basis and providing relevant privacy information to individuals.</p>
+        <p>Connected AF will process this information in accordance with the customer's instructions, our agreement with that customer and applicable law.</p>
+        <p>A separate Data Processing Agreement will set out the respective responsibilities of Connected AF and each customer when we process personal information on their behalf.</p>
+        <p>If you receive a message through Connected AF from an organisation and have a question about how that organisation uses your information, you should normally contact the organisation directly.</p>
+      </section>
+
+      <section id="communications">
+        <h2><span class="n">6.</span>SMS, RCS and WhatsApp Communications</h2>
+        <p>Connected AF enables organisations to communicate with individuals using SMS, RCS and WhatsApp.</p>
+        <p>The organisation sending the communication is responsible for ensuring that its use of these channels complies with applicable privacy, data protection and electronic communications laws and that it has an appropriate lawful basis or permission for the communication where required.</p>
+        <p>Connected AF may process information necessary to send, receive and manage these communications on behalf of its customers.</p>
+        <p>This may include:</p>
+        <ul>
+          <li>telephone numbers;</li>
+          <li>message content;</li>
+          <li>sender and recipient information;</li>
+          <li>delivery information;</li>
+          <li>timestamps;</li>
+          <li>read or engagement information where supported by the relevant channel;</li>
+          <li>opt-out information; and</li>
+          <li>conversation history.</li>
+        </ul>
+        <p>Where applicable, Connected AF may process opt-out and communication preference information on behalf of customers to help ensure those preferences are respected.</p>
+        <p>When an organisation connects its WhatsApp Business Account to Connected AF through Meta’s signup process, we receive and store the identifiers for that account and its phone numbers, and the business profile details needed to send and receive WhatsApp messages on the organisation’s behalf. We use this information only to provide messaging services to that organisation. The organisation can disconnect its account at any time, and can ask us to delete this information by contacting <a href="mailto:support@connectedaf.io">support@connectedaf.io</a>.</p>
+        <p>Customers remain responsible for determining which communications should be sent and to whom.</p>
+      </section>
+
+      <section id="ai">
+        <h2><span class="n">7.</span>AI-Assisted Features</h2>
+        <p>Connected AF may provide AI-assisted tools designed to help users respond to incoming messages.</p>
+        <p>For example, when a supporter sends a message, relevant message content and conversation context may be processed using technology provided by OpenAI to generate a suggested response.</p>
+        <p>The AI acts as a co-pilot rather than an autonomous responder.</p>
+        <p>The Connected AF user remains in control and may:</p>
+        <ul>
+          <li>use the suggested response;</li>
+          <li>edit it before sending;</li>
+          <li>disregard it; or</li>
+          <li>write their own response.</li>
+        </ul>
+        <p>AI-generated suggestions are not automatically sent to supporters.</p>
+        <p>Connected AF does not intend these features to make solely automated decisions about individuals that have legal or similarly significant effects.</p>
+        <p>We will maintain appropriate contractual and data protection arrangements with AI providers used to provide these services.</p>
+      </section>
+
+      <section id="providers">
+        <h2><span class="n">8.</span>Our Technology Providers</h2>
+        <p>We use third-party technology providers to operate and deliver Connected AF.</p>
+        <p>These include:</p>
+        <ul>
+          <li>Amazon Web Services (AWS) - cloud infrastructure and hosting;</li>
+          <li>Twilio - messaging and communications infrastructure;</li>
+          <li>Meta - WhatsApp and related messaging services; and</li>
+          <li>OpenAI - AI-assisted functionality.</li>
+        </ul>
+        <p>We may also use other suppliers where necessary to provide areas such as payment processing, security, authentication, customer support and other technical services.</p>
+        <p>Where suppliers process personal information on our behalf, we require appropriate contractual and data protection safeguards.</p>
+        <p>We may also disclose information where required by law, regulation or court order, or where reasonably necessary to establish, exercise or defend our legal rights.</p>
+      </section>
+
+      <section id="transfers">
+        <h2><span class="n">9.</span>Data Location and International Transfers</h2>
+        <p>Connected AF's primary platform infrastructure and data storage are hosted in the United Kingdom.</p>
+        <p>Some of the third-party services required to provide Connected AF, including messaging and AI services, may process or transfer personal information outside the United Kingdom.</p>
+        <p>Where personal information is transferred internationally, we will ensure that appropriate safeguards are in place in accordance with UK data protection law.</p>
+        <p>Depending on the destination and circumstances, these may include UK adequacy regulations, the UK International Data Transfer Agreement, the UK Addendum to approved Standard Contractual Clauses, or other legally recognised safeguards.</p>
+        <p>Further information about relevant sub-processors and international transfers may be made available through our Data Processing Agreement or sub-processor information.</p>
+      </section>
+
+      <section id="retention">
+        <h2><span class="n">10.</span>How Long We Keep Information</h2>
+        <p>Organisations using Connected AF can manage how long supporter and messaging information is retained within their account while they have an active subscription. As the data controller, the organisation is responsible for determining an appropriate retention period and ensuring personal information is not retained for longer than necessary.</p>
+        <p>Customers can delete supporter records and conversation data from their Connected AF account during their subscription.</p>
+        <p>At the end of a subscription, customer data will be retained for up to 28 days, allowing time for appropriate account closure and, where applicable, the retrieval of data.</p>
+        <p>Following this 28-day period, the organisation's customer data will be securely deleted from Connected AF's active systems, subject to any information we are required to retain by law and any limited data that may remain temporarily within secure backups in accordance with our backup and deletion procedures.</p>
+        <p>Customer account, billing and contractual information may be retained separately for longer where necessary to meet our legal, accounting, regulatory or legitimate business requirements.</p>
+        <p class="callout">To request the deletion of your data, please contact <a href="mailto:support@connectedaf.io">support@connectedaf.io</a></p>
+      </section>
+
+      <section id="security">
+        <h2><span class="n">11.</span>Security</h2>
+        <p>We use appropriate technical and organisational measures designed to protect personal information against unauthorised access, disclosure, alteration, loss or destruction.</p>
+        <p>Depending on the nature of the processing, these measures may include:</p>
+        <ul>
+          <li>encryption;</li>
+          <li>access controls;</li>
+          <li>authentication;</li>
+          <li>monitoring and logging;</li>
+          <li>backups;</li>
+          <li>secure UK-hosted infrastructure;</li>
+          <li>vulnerability management; and</li>
+          <li>internal security policies and procedures.</li>
+        </ul>
+        <p>No online service can guarantee absolute security, but protecting the information processed through Connected AF is a core part of how the platform is designed and operated.</p>
+      </section>
+
+      <section id="rights">
+        <h2><span class="n">12.</span>Your Rights</h2>
+        <p>Depending on the circumstances, UK data protection law provides individuals with rights relating to their personal information, including the right to:</p>
+        <ul>
+          <li>access their personal information;</li>
+          <li>correct inaccurate or incomplete information;</li>
+          <li>request deletion;</li>
+          <li>request restriction of processing;</li>
+          <li>object to certain processing;</li>
+          <li>receive certain information in a portable format;</li>
+          <li>withdraw consent where processing relies on consent; and</li>
+          <li>raise concerns about how their information is being used.</li>
+        </ul>
+        <p>These rights do not apply in every circumstance.</p>
+        <p>If your information is being processed through Connected AF on behalf of one of our customers, you should normally contact that organisation first.</p>
+        <p>Connected AF will assist its customers in responding to valid data protection requests where required.</p>
+        <p>Where Connected AF is the controller of your information, you can contact us at <a href="mailto:helen@connectedaf.io">helen@connectedaf.io</a>.</p>
+      </section>
+
+      <section id="marketing">
+        <h2><span class="n">13.</span>Marketing From Connected AF</h2>
+        <p>Connected AF may send information about our products, services, events and other relevant updates where permitted by law.</p>
+        <p>You can opt out of marketing communications at any time using the unsubscribe option provided or by contacting us at <a href="mailto:helen@connectedaf.io">helen@connectedaf.io</a>.</p>
+        <p>Opting out of marketing will not prevent us from sending essential communications relating to your account or services.</p>
+        <p>This section relates to marketing sent by Connected AF itself. Marketing and supporter communications sent by organisations using Connected AF are the responsibility of the organisation sending them.</p>
+      </section>
+
+      <section id="cookies">
+        <h2><span class="n">14.</span>Cookies</h2>
+        <p>Our website and platform may use cookies and similar technologies necessary to provide functionality, maintain security and remember user preferences.</p>
+        <p>If we introduce non-essential cookies, including analytics or advertising cookies, we will provide appropriate information and obtain consent where required.</p>
+        <p>Further information may be provided in a separate Cookie Policy.</p>
+      </section>
+
+      <section id="integrations">
+        <h2><span class="n">15.</span>Integrations and Third-Party Services</h2>
+        <p>Connected AF may integrate with third-party fundraising, CRM, messaging and other services.</p>
+        <p>Where a customer chooses to connect Connected AF with another service, information may be exchanged between the systems as necessary to provide the integration.</p>
+        <p>Customers are responsible for ensuring that they are authorised to connect those services and instruct Connected AF to process the relevant information.</p>
+        <p>Third-party organisations may have their own privacy policies and terms governing their services.</p>
+      </section>
+
+      <section id="sensitive">
+        <h2><span class="n">16.</span>Children's and Sensitive Information</h2>
+        <p>Messages processed through Connected AF may contain information that is sensitive or personal in nature.</p>
+        <p>Customers are responsible for considering the nature of the information they choose to process through Connected AF and ensuring that their use of the platform is appropriate and lawful.</p>
+        <p>Where special category information or information relating to children is processed, additional legal and security requirements may apply.</p>
+        <p>Connected AF may impose additional restrictions or requirements relating to certain categories of information through its Terms of Service or Data Processing Agreement.</p>
+      </section>
+
+      <section id="complaints">
+        <h2><span class="n">17.</span>Complaints</h2>
+        <p>If you have concerns about how Connected AF uses your personal information, please contact us at:</p>
+        <p><a href="mailto:helen@connectedaf.io">helen@connectedaf.io</a></p>
+        <p>We would welcome the opportunity to address your concerns.</p>
+        <p>You also have the right to complain to the Information Commissioner's Office (ICO), the UK's data protection regulator.</p>
+      </section>
+
+      <section id="changes">
+        <h2><span class="n">18.</span>Changes to This Privacy Policy</h2>
+        <p>We may update this Privacy Policy as Connected AF develops, our services change or legal requirements evolve.</p>
+        <p>The latest version will be available through our website and the date at the top of the policy will show when it was last updated.</p>
+        <p>Where we make significant changes to how personal information is used, we will take appropriate steps to bring those changes to the attention of affected individuals.</p>
+      </section>
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="yr">2026</span> AFComm Ltd, trading as Connected AF. Company number 17294085.</span>
+    <span><a href="/privacy-policy">Privacy Policy</a> &middot; <a href="mailto:support@connectedaf.io">support@connectedaf.io</a></span>
+  </div>
+</footer>
+
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
